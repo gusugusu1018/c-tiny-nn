@@ -1,6 +1,8 @@
 #include <list>
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
@@ -44,8 +46,7 @@ int main(){
 	train_data = mnist.readTrainingFile("../data/train-images-idx3-ubyte");
 	label_data = mnist.readLabelFile("../data/train-labels-idx1-ubyte");
 
-	char initial_file[MAX_FILENAME]={"initial.weights"};
-	char save_file[MAX_FILENAME]={"new.weights"};
+	char save_file[MAX_FILENAME]={"new_weights.txt"};
 
 	float data[N_INPUT];
 
@@ -74,7 +75,6 @@ int main(){
 	float cost = 0.0f;
 
 	//****************initialize weight and bias*******************
-	//get_weights(initial_file,w01,b1,w12,b2,w23,b3);
 	float mu=0.0f;
    // He initialization
 	float sigma=sqrt(2.0f/N_INPUT);
@@ -269,7 +269,7 @@ int main(){
 		}
 		//*************************fin 1 epoch****************************
 	}
-	write_weights(save_file,w01,b1,w12,b2,w23,b3);
+	write_weights_text(save_file,w01,b1,w12,b2,w23,b3);
 
 	return 0;
 }

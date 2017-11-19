@@ -1,6 +1,10 @@
 #include <list>
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <cstdio>
+#include <cstdlib>
 #include <cmath>
 
 #define N_INPUT 784
@@ -10,7 +14,7 @@
 #define MAX_FILENAME	30
 
 #include "mnist.h"
-#include "util.h"
+#include "../weights/weights.h"
 
 float relu(float a) {
 	return a > 0.0f ? a:0.0f;
@@ -28,14 +32,14 @@ int main(){
 	std::vector<std::vector<float> > train_data;
 	std::vector<float> label_data;
 	Mnist mnist;
-	/*
 	train_data = mnist.readTrainingFile("../data/train-images-idx3-ubyte");
 	label_data = mnist.readLabelFile("../data/train-labels-idx1-ubyte");
-	*/
+	/*
 	train_data = mnist.readTrainingFile("../data/t10k-images-idx3-ubyte");
 	label_data = mnist.readLabelFile("../data/t10k-labels-idx1-ubyte");
+	*/
 
-	char load_file[MAX_FILENAME]={"new.weights"};
+	char load_file[MAX_FILENAME]={"new_weights.txt"};
 
 	float data[N_INPUT];
 
@@ -65,7 +69,7 @@ int main(){
 	float accracy = 0.0f;
 
 	//****************initialize weight and bias*******************
-	get_weights(load_file,w01,b1,w12,b2,w23,b3);
+	get_weights_text(load_file,w01,b1,w12,b2,w23,b3);
 
 	for (int counter=0;counter<epoch;counter++) {
 		//*************************forward****************************

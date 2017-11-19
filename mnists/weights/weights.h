@@ -95,36 +95,33 @@ int write_weights_text(
       ) {
    std::ofstream ofs(filename);
    int i,j;
-   std::cout<<w01[0][0]<<",";
-   for (i=0;i++;i<N_INPUT) {
-      for (j=0;j++;j<N_H1) {
+   for (i=0;i<N_INPUT;i++) {
+      for (j=0;j<N_H1;j++) {
          ofs<<w01[i][j]<<",";
-         std::cout<<w01[i][j]<<",";
-         printf("%f,",w01[i][j]);
       }
    }
    ofs<<std::endl;
-   for (i=0;i++;i<N_H1) {
+   for (i=0;i<N_H1;i++) {
       ofs<<b1[i]<<",";
    }
    ofs<<std::endl;
-   for (i=0;i++;i<N_H1) {
-      for (j=0;j++;j<N_H2) {
+   for (i=0;i<N_H1;i++) {
+      for (j=0;j<N_H2;j++) {
          ofs<<w12[i][j]<<",";
       }
    }
    ofs<<std::endl;
-   for (i=0;i++;i<N_H2) {
+   for (i=0;i<N_H2;i++) {
       ofs<<b2[i]<<",";
    }
    ofs<<std::endl;
-   for (i=0;i++;i<N_H2) {
-      for (j=0;j++;j<N_OUTPUT) {
+   for (i=0;i<N_H2;i++) {
+      for (j=0;j<N_OUTPUT;j++) {
          ofs<<w23[i][j]<<",";
       }
    }
    ofs<<std::endl;
-   for (i=0;i++;i<N_OUTPUT) {
+   for (i=0;i<N_OUTPUT;i++) {
       ofs<<b3[i]<<",";
    }
    return 0;
@@ -149,38 +146,38 @@ int get_weights_text(
    std::getline(ifs,str);
    std::string token;
    std::istringstream stream(str);
-   for (i=0;i++;i<N_INPUT) {
-      for (j=0;j++;j<N_H1) {
+   for (i=0;i<N_INPUT;i++) {
+      for (j=0;j<N_H1;j++) {
          std::getline(stream,token,',');
          w01[i][j]= std::stof(token);
       }
    }
    std::getline(ifs,str);
-   for (i=0;i++;i<N_H1) {
+   for (i=0;i<N_H1;i++) {
       std::getline(stream,token,',');
       b1[i]= std::stof(token);
    }
    std::getline(ifs,str);
-   for (i=0;i++;i<N_H1) {
-      for (j=0;j++;j<N_H2) {
+   for (i=0;i<N_H1;i++) {
+      for (j=0;j<N_H2;j++) {
          std::getline(stream,token,',');
          w12[i][j]= std::stof(token);
       }
    }
    std::getline(ifs,str);
-   for (i=0;i++;i<N_H2) {
+   for (i=0;i<N_H2;i++) {
       std::getline(stream,token,',');
       b2[i]= std::stof(token);
    }
    std::getline(ifs,str);
-   for (i=0;i++;i<N_H2) {
-      for (j=0;j++;j<N_OUTPUT) {
+   for (i=0;i<N_H2;i++) {
+      for (j=0;j<N_OUTPUT;j++) {
          std::getline(stream,token,',');
          w23[i][j]= std::stof(token);
       }
    }
    std::getline(ifs,str);
-   for (i=0;i++;i<N_OUTPUT) {
+   for (i=0;i<N_OUTPUT;i++) {
       std::getline(stream,token,',');
       b3[i]= std::stof(token);
    }
