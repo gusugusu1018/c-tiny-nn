@@ -1,6 +1,7 @@
 all:
-	icpc test.cpp -o test.out -O3  -std=c++11 -openmp
+	icpc test.cpp -o test.out -O3  -std=c++11 -parallel
+#icpc test.cpp -o test.out -O3  -std=c++11 -openmp
 #g++ test.cpp -o debug.out -g3 -std=c++11
-#g++ test.cpp -o test.out -O3 -fopenmp
+#g++ test.cpp -o test.out -O3 -std=c++11 -fopenmp
 clean:
 	rm test.out

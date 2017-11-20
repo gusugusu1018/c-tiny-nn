@@ -132,7 +132,6 @@ int main(){
          //
          // if (label==9) teacher_buf={0,0,0,0,0,0,0,0,0,1};
          for (int i=0;i<10;i++) {
-            //if (label_data[counter] == i) {
             if (label_data[e_counter*batch_size+b_counter] == i) {
                teacher_buf[i]=1;
             } else {
@@ -203,7 +202,7 @@ int main(){
          }
          if (b_counter==0)
             std::cout<<e_counter*batch_size+b_counter<<" epoch, cost "<<cost<<std::endl;
-            //std::cout<<counter<<" epoch, cost "<<cost<<std::endl;
+         //std::cout<<counter<<" epoch, cost "<<cost<<std::endl;
 
          //counter++;
 
@@ -258,47 +257,47 @@ int main(){
          for (int j=0;j<N_H1;j++) {
             Delta_b1[j] += delta_1[j];
          }
-         }
-         //*************************update weight and bias****************************
-         // w23
-         for (int i=0;i<N_H2;i++) {
-            for (int j=0;j<N_OUTPUT;j++) {
-               w23[i][j] = w23[i][j] - eta*Delta_w23[i][j];
-               Delta_w23[i][j]=0.0f;
-            }
-         }
-         // b3
-         for (int j=0;j<N_OUTPUT;j++) {
-            b3[j] = b3[j] - eta*Delta_b3[j];
-            Delta_b3[j]=0.0f;
-         }
-         // w12
-         for (int i=0;i<N_H1;i++) {
-            for (int j=0;j<N_H2;j++) {
-               w12[i][j] = w12[i][j] - eta*Delta_w12[i][j];
-               Delta_w12[i][j]=0.0f;
-            }
-         }
-         // b2
-         for (int j=0;j<N_H2;j++) {
-            b2[j] = b2[j] - eta*Delta_b2[j];
-            Delta_b2[j]=0.0f;
-         }
-         // w01
-         for (int i=0;i<N_INPUT;i++) {
-            for (int j=0;j<N_H1;j++) {
-               w01[i][j] = w01[i][j] - eta*Delta_w01[i][j];
-               Delta_w01[i][j]=0.0f;
-            }
-         }
-         // b1
-         for (int j=0;j<N_H1;j++) {
-            b1[j] = b1[j] - eta*Delta_b1[j];
-            Delta_b1[j]=0.0f;
-         }
-         //*************************fin 1 epoch****************************
       }
-      write_weights(save_file,w01,b1,w12,b2,w23,b3);
-      return 0;
+      //*************************update weight and bias****************************
+      // w23
+      for (int i=0;i<N_H2;i++) {
+         for (int j=0;j<N_OUTPUT;j++) {
+            w23[i][j] = w23[i][j] - eta*Delta_w23[i][j];
+            Delta_w23[i][j]=0.0f;
+         }
+      }
+      // b3
+      for (int j=0;j<N_OUTPUT;j++) {
+         b3[j] = b3[j] - eta*Delta_b3[j];
+         Delta_b3[j]=0.0f;
+      }
+      // w12
+      for (int i=0;i<N_H1;i++) {
+         for (int j=0;j<N_H2;j++) {
+            w12[i][j] = w12[i][j] - eta*Delta_w12[i][j];
+            Delta_w12[i][j]=0.0f;
+         }
+      }
+      // b2
+      for (int j=0;j<N_H2;j++) {
+         b2[j] = b2[j] - eta*Delta_b2[j];
+         Delta_b2[j]=0.0f;
+      }
+      // w01
+      for (int i=0;i<N_INPUT;i++) {
+         for (int j=0;j<N_H1;j++) {
+            w01[i][j] = w01[i][j] - eta*Delta_w01[i][j];
+            Delta_w01[i][j]=0.0f;
+         }
+      }
+      // b1
+      for (int j=0;j<N_H1;j++) {
+         b1[j] = b1[j] - eta*Delta_b1[j];
+         Delta_b1[j]=0.0f;
+      }
+      //*************************fin 1 epoch****************************
    }
+   write_weights(save_file,w01,b1,w12,b2,w23,b3);
+   return 0;
+}
 
