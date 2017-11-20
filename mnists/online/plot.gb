@@ -1,0 +1,5 @@
+set terminal png
+set datafile separator ","
+set yrange [0:3]
+set output 'online.png'
+plot 'output.txt' title 'online' with lines

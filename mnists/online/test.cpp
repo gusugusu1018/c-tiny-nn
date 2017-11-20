@@ -12,6 +12,7 @@
 #define N_H2	1024
 #define N_OUTPUT	10
 #define MAX_FILENAME	30
+#define N_TRAIN_DATA 60000
 
 #include "../data/mnist.h"
 #include "../weights/weights.h"
@@ -78,12 +79,15 @@ int main(){
    //****************initialize weight and bias*******************
    get_weights(initial_file,w01,b1,w12,b2,w23,b3);
 
+   int random_value;
    for (int counter=0;counter<epoch;counter++) {
       //*************************forward****************************
+      random_value = rand()%N_TRAIN_DATA;
       // standlize
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<28*28;j++) {
-         data[j] = train_data[counter][j]/255;
+         data[j] = train_data[random_value][j]/255.0f;
+         //data[j] = train_data[counter][j]/255;
       }
       // convert teacher to one-hot expression
       // if (label==0) teacher_buf={1,0,0,0,0,0,0,0,0,0};
@@ -92,9 +96,11 @@ int main(){
       // if (label==3) teacher_buf={0,0,0,1,0,0,0,0,0,0};
       //
       // if (label==9) teacher_buf={0,0,0,0,0,0,0,0,0,1};
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int i=0;i<10;i++) {
-         if (label_data[counter] == i) {
+         if (label_data[random_value] == i)
+         //if (label_data[counter] == i)
+         {
             teacher_buf[i]=1;
          } else {
             teacher_buf[i]=0;
@@ -102,7 +108,7 @@ int main(){
       }
 
       // H1 perseptron 1024kai
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<N_H1;j++) {
          // perseptron 784->1
          z1[j] = 0.0f;
@@ -118,7 +124,7 @@ int main(){
       }
 
       // H2 perseptron 1024kai
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<N_H2;j++) {
          // perseptron 1024->1
          z2[j] = 0.0f;
@@ -134,7 +140,7 @@ int main(){
       }
 
       // OUTPUT layer
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<N_OUTPUT;j++) {
          // perseptron 1024->1
          z3[j] = 0.0f;
@@ -156,7 +162,7 @@ int main(){
          a3[i] = std::exp(z3[i] - max);
          sum += a3[i];
       }
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int i=0; i<N_OUTPUT; i++) a3[i] /= sum;
 
       // loss function
@@ -168,7 +174,9 @@ int main(){
          //cost += -teacher_buf[i]*std::log(a3[i]);
       }
       if (counter%100==0)
-         std::cout<<counter<<" epoch, cost "<<cost<<std::endl;
+         std::cout<<counter<<","<<cost<<std::endl;
+         //std::cout<<counter<<" epoch,cost "<<cost<<std::endl;
+
       if (counter>59990) {
          for (int i=0;i<10;i++) {
             std::cout<<"  "<<i<<", output "<<a3[i]<<", teacher "<<teacher_buf[i]<<std::endl;
@@ -178,12 +186,12 @@ int main(){
 
       //*************************backward****************************
       // 3
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int k=0;k<N_OUTPUT;k++) {
          delta_3[k]=(a3[k]-teacher_buf[k]);
       }
       // 2
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<N_H2;j++) {
          delta_2[j]=0.0f;
          for (int k=0;k<N_OUTPUT;k++) {
@@ -191,7 +199,7 @@ int main(){
          }
       }
       // 1
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<N_H1;j++) {
          delta_1[j]=0.0f;
          for (int k=0;k<N_H2;k++) {
@@ -201,37 +209,37 @@ int main(){
       //*************************update weight and bias****************************
       // w23
       for (int i=0;i<N_H2;i++) {
-#pragma omp parallel for
+//#pragma omp parallel for
          for (int j=0;j<N_OUTPUT;j++) {
             w23[i][j] = w23[i][j] - eta*delta_3[j]*a2[i];
          }
       }
       // b3
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<N_OUTPUT;j++) {
          b3[j]=b3[j] - eta*delta_3[j];
       }
       // w12
       for (int i=0;i<N_H1;i++) {
-#pragma omp parallel for
+//#pragma omp parallel for
          for (int j=0;j<N_H2;j++) {
             w12[i][j] = w12[i][j] - eta*delta_2[j]*a1[i];
          }
       }
       // b2
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<N_H2;j++) {
          b2[j]=b2[j] - eta*delta_2[j];
       }
       // w01
       for (int i=0;i<N_INPUT;i++) {
-#pragma omp parallel for
+//#pragma omp parallel for
          for (int j=0;j<N_H1;j++) {
             w01[i][j] = w01[i][j] - eta*delta_1[j]*data[i];
          }
       }
       // b1
-#pragma omp parallel for
+//#pragma omp parallel for
       for (int j=0;j<N_H1;j++) {
          b1[j]=b1[j] - eta*delta_1[j];
       }

@@ -12,6 +12,7 @@
 #define N_H2	1024
 #define N_OUTPUT	10
 #define MAX_FILENAME 30
+#define N_TRAIN_DATA 60000
 
 #include "../data/mnist.h"
 #include "../weights/weights.h"
@@ -65,17 +66,21 @@ float Delta_b3[N_OUTPUT];
 float teacher_buf[10];
 
 int main(){
-   int epoch = 600;
+   int epoch = 1024;
    float eta = 0.001f;
-   int batch_size = 32;
+   int batch_size = 64;
    char initial_file[MAX_FILENAME]={"initial.weights"};
    char save_file[MAX_FILENAME]={"new.weights"};
    std::cout<<"init dataset..."<<std::endl;
    std::vector<std::vector<float> > train_data;
    std::vector<float> label_data;
+   std::vector<std::vector<float> > test_data;
+   std::vector<float> test_label_data;
    Mnist mnist;
    train_data = mnist.readTrainingFile("../data/train-images-idx3-ubyte");
    label_data = mnist.readLabelFile("../data/train-labels-idx1-ubyte");
+   test_data = mnist.readTrainingFile("../data/t10k-images-idx3-ubyte");
+   test_label_data = mnist.readLabelFile("../data/t10k-labels-idx1-ubyte");
    float max = 0.0f;
    float sum = 0.0f;
    float cost = 0.0f;
@@ -114,15 +119,15 @@ int main(){
       Delta_b1[j]=0.0f;
    }
 
-   //int counter=0;
+   int random_value;
    for (int e_counter=0;e_counter<epoch;e_counter++) {
       //#pragma omp parallel for
       for (int b_counter=0;b_counter<batch_size;b_counter++) {
          //*************************forward****************************
+         random_value = rand()%N_TRAIN_DATA;
          // standlize
          for (int j=0;j<28*28;j++) {
-            //data[j] = train_data[counter][j]/255;
-            data[j] = train_data[e_counter*batch_size+b_counter][j]/255;
+            data[j] = train_data[random_value][j]/255.0f;
          }
          // convert teacher to one-hot expression
          // if (label==0) teacher_buf={1,0,0,0,0,0,0,0,0,0};
@@ -132,7 +137,7 @@ int main(){
          //
          // if (label==9) teacher_buf={0,0,0,0,0,0,0,0,0,1};
          for (int i=0;i<10;i++) {
-            if (label_data[e_counter*batch_size+b_counter] == i) {
+            if (label_data[random_value] == i) {
                teacher_buf[i]=1;
             } else {
                teacher_buf[i]=0;
@@ -201,10 +206,8 @@ int main(){
             //cost += -teacher_buf[i]*std::log(a3[i]);
          }
          if (b_counter==0)
-            std::cout<<e_counter*batch_size+b_counter<<" epoch, cost "<<cost<<std::endl;
-         //std::cout<<counter<<" epoch, cost "<<cost<<std::endl;
-
-         //counter++;
+            std::cout<<e_counter*batch_size+b_counter<<","<<cost<<std::endl;
+            //std::cout<<e_counter*batch_size+b_counter<<" epoch, cost "<<cost<<std::endl;
 
          //*************************backward****************************
          // 3
@@ -298,6 +301,100 @@ int main(){
       //*************************fin 1 epoch****************************
    }
    write_weights(save_file,w01,b1,w12,b2,w23,b3);
+   //*************************get accracy****************************
+   float accracy = 0.0f;
+   for (int counter=0;counter<100;counter++) {
+      //*************************forward****************************
+      random_value = rand()%10000;
+      // standlize
+      for (int j=0;j<28*28;j++) {
+         data[j] = test_data[random_value][j]/255;
+      }
+      // convert teacher to one-hot expression
+      // if (label==0) teacher_buf={1,0,0,0,0,0,0,0,0,0};
+      // if (label==1) teacher_buf={0,1,0,0,0,0,0,0,0,0};
+      // if (label==2) teacher_buf={0,0,1,0,0,0,0,0,0,0};
+      // if (label==3) teacher_buf={0,0,0,1,0,0,0,0,0,0};
+      //
+      // if (label==9) teacher_buf={0,0,0,0,0,0,0,0,0,1};
+      for (int i=0;i<10;i++) {
+         if (test_label_data[random_value] == i) {
+            teacher_buf[i]=1;
+         } else {
+            teacher_buf[i]=0;
+         }
+      }
+
+      // H1 perseptron 1024kai
+      for (int j=0;j<N_H1;j++) {
+         // perseptron 784->1
+         z1[j] = 0.0f;
+         for (int i=0;i<N_INPUT;i++) {
+            // sum w*data
+            z1[j]+=w01[i][j]*data[i];
+         }
+         // sum bias
+         z1[j]+=b1[j];
+         // activation function
+         // relu
+         a1[j]=relu(z1[j]);
+      }
+
+      // H2 perseptron 1024kai
+      for (int j=0;j<N_H2;j++) {
+         // perseptron 1024->1
+         z2[j] = 0.0f;
+         for (int i=0;i<N_H1;i++) {
+            // sum w*a1
+            z2[j]+=w12[i][j]*a1[i];
+         }
+         // sum bias
+         z2[j]+=b2[j];
+         // activation function
+         // relu
+         a2[j]=relu(z2[j]);
+      }
+
+      // OUTPUT layer
+      for (int j=0;j<N_OUTPUT;j++) {
+         // perseptron 1024->1
+         z3[j] = 0.0f;
+         for (int i=0;i<N_H2;i++) {
+            // sum w*a1
+            z3[j]+=w23[i][j]*a2[i];
+         }
+         // sum bias
+         z3[j]+=b3[j];
+      }
+
+      // activation function
+      // softmax
+      max = 0.0f;
+      sum = 0.0f;
+      // overflow avoidance
+      for (int i=0; i<N_OUTPUT; i++) if(max < z3[i]) max = z3[i];
+      for (int i=0; i<N_OUTPUT; i++) {
+         a3[i] = std::exp(z3[i] - max);
+         sum += a3[i];
+      }
+      for (int i=0; i<N_OUTPUT; i++) a3[i] /= sum;
+
+      // loss function
+      cost = 0.0f;
+      // cross entropy error
+      for (int i=0;i<10;i++) {
+         cost += -teacher_buf[i]*std::log(a3[i]+1e-8);//overflow avoidance
+         //cost += -teacher_buf[i]*std::log(a3[i]);
+      }
+      std::cout<<counter<<" epoch, cost "<<cost;
+      for (int i=0;i<10;i++) {
+         if (teacher_buf[i]==1){
+            std::cout<<"  "<<i<<", output "<<a3[i]<<std::endl;
+            accracy+=a3[i];
+         }
+      }
+   }
+   std::cout<<"accracy average "<<accracy<<"%"<<std::endl;
    return 0;
 }
 

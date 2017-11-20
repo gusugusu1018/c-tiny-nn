@@ -1,0 +1,5 @@
+set terminal png
+set datafile separator ","
+set yrange [0:3]
+set output 'batch.png'
+plot 'output.txt' title 'batch' with lines
