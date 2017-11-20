@@ -1,6 +1,8 @@
 #include <list>
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
@@ -12,18 +14,18 @@
 #define MAX_FILENAME	30
 #define HIST_NMAX	10
 
-#include "mnist.h"
+#include "../data/mnist.h"
 #include "../weights/weights.h"
 
 float rand_uniform()
 {
-  float ret = ((float) rand() + 1.0f) / ((float) RAND_MAX + 2.0f);
-  return ret;
+   float ret = ((float) rand() + 1.0f) / ((float) RAND_MAX + 2.0f);
+   return ret;
 }
 float rand_normal(float mu, float sigma)
 {
-  float  z = sqrt(-2.0f * log(rand_uniform())) * sin(2.0f * M_PI * rand_uniform());
-  return mu + sigma * z;
+   float  z = sqrt(-2.0f * log(rand_uniform())) * sin(2.0f * M_PI * rand_uniform());
+   return mu + sigma * z;
 }
 
 float relu(float a) {
@@ -33,6 +35,28 @@ float relu(float a) {
 float diff_relu(float a) {
    return a > 0.0f ? 1.0f:0.0f;
 }
+
+float data[N_INPUT];
+
+float w01[N_INPUT][N_H1];
+float b1[N_H1];
+float z1[N_H1];
+float a1[N_H1];
+float delta_1[N_H1];
+
+float w12[N_H1][N_H2];
+float b2[N_H2];
+float z2[N_H2];
+float a2[N_H2];
+float delta_2[N_H2];
+
+float w23[N_H1][N_OUTPUT];
+float b3[N_OUTPUT];
+float z3[N_OUTPUT];
+float a3[N_OUTPUT];
+float delta_3[N_OUTPUT];
+
+float teacher_buf[10];
 
 int main(){
    int epoch = 1;
@@ -47,74 +71,18 @@ int main(){
 
    char initial_file[MAX_FILENAME]={"initial.weights"};
 
-   float data[N_INPUT];
-
-   float w01[N_INPUT][N_H1];
-   float b1[N_H1];
-   float z1[N_H1];
-   float a1[N_H1];
-   float delta_1[N_H1];
-
-   float w12[N_H1][N_H2];
-   float b2[N_H2];
-   float z2[N_H2];
-   float a2[N_H2];
-   float delta_2[N_H2];
-
-   float w23[N_H1][N_OUTPUT];
-   float b3[N_OUTPUT];
-   float z3[N_OUTPUT];
-   float a3[N_OUTPUT];
-   float delta_3[N_OUTPUT];
-
-   float teacher_buf[10];
-
    float max = 0.0f;
    float sum = 0.0f;
    float cost = 0.0f;
 
    int hist[HIST_NMAX];
    for (int i=0;i<HIST_NMAX;i++) {
-         hist[i]=0;
+      hist[i]=0;
    }
    float dx=1.0f/(float)HIST_NMAX;
 
    //****************initialize weight and bias*******************
-   //get_weights(initial_file,w01,b1,w12,b2,w23,b3);
-	float mu=0.0f;
-   // He initialization
-	float sigma=sqrt(2.0f/N_INPUT);
-   printf("w01 std=%f\n",sigma);
-	for (int i=0;i<N_INPUT;i++) {
-		for (int j=0;j<N_H1;j++)
-			w01[i][j] = rand_normal(mu,sigma);
-	}
-	for (int i=0;i<N_H1;i++) {
-		//b1[i] = rand_normal(mu,sigma);
-		b1[i] = 0.0f;
-	}
-   // He initialization
-	sigma=sqrt(2.0f/N_H1);
-   printf("w12 std=%f\n",sigma);
-	for (int i=0;i<N_H1;i++) {
-		for (int j=0;j<N_H2;j++)
-			w12[i][j] = rand_normal(mu,sigma);
-	}
-	for (int i=0;i<N_H2;i++) {
-		//b2[i] = rand_normal(mu,sigma);
-      b2[i] = 0.0f;
-	}
-   // He initialization
-	sigma=sqrt(2.0f/N_H2);
-   printf("w23 std=%f\n",sigma);
-	for (int i=0;i<N_H2;i++) {
-		for (int j=0;j<N_OUTPUT;j++)
-			w23[i][j] = rand_normal(mu,sigma);
-	}
-	for (int i=0;i<N_OUTPUT;i++) {
-		//b3[i] = rand_normal(mu,sigma);
-      b3[i] = 0.0f;
-	}
+   get_weights(initial_file,w01,b1,w12,b2,w23,b3);
 
    for (int counter=0;counter<epoch;counter++) {
       //*************************forward****************************
@@ -159,7 +127,7 @@ int main(){
       //*************************fin 1 epoch****************************
    }
    for (int i=0;i<HIST_NMAX;i++) {
-         std::cout<<i<<" "<<hist[i]<<std::endl;
+      std::cout<<i<<" "<<hist[i]<<std::endl;
    }
    return 0;
 }

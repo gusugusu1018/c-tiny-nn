@@ -13,7 +13,7 @@
 #define N_OUTPUT	10
 #define MAX_FILENAME	30
 
-#include "mnist.h"
+#include "../data/mnist.h"
 #include "../weights/weights.h"
 
 float rand_uniform()

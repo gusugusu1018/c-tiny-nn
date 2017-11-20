@@ -11,9 +11,9 @@
 #define N_H1	1024
 #define N_H2	1024
 #define N_OUTPUT	10
-#define MAX_FILENAME	30
+#define MAX_FILENAME 30
 
-#include "mnist.h"
+#include "../data/mnist.h"
 #include "../weights/weights.h"
 
 float rand_uniform()
@@ -65,9 +65,11 @@ float Delta_b3[N_OUTPUT];
 float teacher_buf[10];
 
 int main(){
-   int epoch = 6;
-   float eta = 0.1f;
-   int batch_size = 10;
+   int epoch = 600;
+   float eta = 0.001f;
+   int batch_size = 32;
+   char initial_file[MAX_FILENAME]={"initial.weights"};
+   char save_file[MAX_FILENAME]={"new.weights"};
    std::cout<<"init dataset..."<<std::endl;
    std::vector<std::vector<float> > train_data;
    std::vector<float> label_data;
@@ -80,40 +82,7 @@ int main(){
 
    int i,j,k;
    //****************initialize weight and bias*******************
-   float mu=0.0f;
-   // He initialization
-   float sigma=sqrt(2.0f/N_INPUT);
-   printf("w01 std=%f\n",sigma);
-   for (int i=0;i<N_INPUT;i++) {
-      for (int j=0;j<N_H1;j++)
-         w01[i][j] = rand_normal(mu,sigma);
-   }
-   for (int i=0;i<N_H1;i++) {
-      //b1[i] = rand_normal(mu,sigma);
-      b1[i] = 0.0f;
-   }
-   // He initialization
-   sigma=sqrt(2.0f/N_H1);
-   printf("w12 std=%f\n",sigma);
-   for (int i=0;i<N_H1;i++) {
-      for (int j=0;j<N_H2;j++)
-         w12[i][j] = rand_normal(mu,sigma);
-   }
-   for (int i=0;i<N_H2;i++) {
-      //b2[i] = rand_normal(mu,sigma);
-      b2[i] = 0.0f;
-   }
-   // He initialization
-   sigma=sqrt(2.0f/N_H2);
-   printf("w23 std=%f\n",sigma);
-   for (int i=0;i<N_H2;i++) {
-      for (int j=0;j<N_OUTPUT;j++)
-         w23[i][j] = rand_normal(mu,sigma);
-   }
-   for (int i=0;i<N_OUTPUT;i++) {
-      //b3[i] = rand_normal(mu,sigma);
-      b3[i] = 0.0f;
-   }
+   get_weights(initial_file,w01,b1,w12,b2,w23,b3);
    // w23
    for (i=0;i<N_H2;i++) {
       for (j=0;j<N_OUTPUT;j++) {
@@ -233,8 +202,8 @@ int main(){
             //cost += -teacher_buf[i]*std::log(a3[i]);
          }
          if (b_counter==0)
-            //std::cout<<counter<<" epoch, cost "<<cost<<std::endl;
             std::cout<<e_counter*batch_size+b_counter<<" epoch, cost "<<cost<<std::endl;
+            //std::cout<<counter<<" epoch, cost "<<cost<<std::endl;
 
          //counter++;
 
@@ -329,6 +298,7 @@ int main(){
          }
          //*************************fin 1 epoch****************************
       }
+      write_weights(save_file,w01,b1,w12,b2,w23,b3);
       return 0;
    }
 

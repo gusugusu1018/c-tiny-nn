@@ -1,7 +1,13 @@
 #include <list>
 #include <vector>
 #include <iostream>
-#include "mnist.h"
+#include <fstream>
+#include <sstream>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+
+#include "../data/mnist.h"
 
 using namespace std;
 
