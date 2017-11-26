@@ -82,7 +82,7 @@ int main(int argc, char** argv)
 	size_t size_Output_data_bytes = N_H1*sizeof(float);
 	for (int i=0;i<N_INPUT;i++) {
 		for (int j=0;j<N_H1;j++) {
-			w01[i*N_INPUT+j] = train_data[i][j];
+			w01[i*N_INPUT+j] = temp01[i][j];
 		}
 	}
 
