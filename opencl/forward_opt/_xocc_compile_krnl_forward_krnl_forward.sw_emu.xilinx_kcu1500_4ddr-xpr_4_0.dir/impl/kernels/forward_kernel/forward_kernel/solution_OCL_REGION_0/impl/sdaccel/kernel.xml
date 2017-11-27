@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root versionMajor="1" versionMinor="5">
+  <kernel name="forward_kernel" language="clc" vlnv="xilinx.com:hls:forward_kernel:1.0" attributes="" hash="6wk5wl3MmbrazNbxA27gq." preferredWorkGroupSizeMultiple="0" workGroupSize="1" debug="false" compileOptions=" -I /home/h-ninomiya/SDAccel_Examples/vision/forward_aligned/src" profileType="">
+    <ports>
+      <port name="M_AXI_GMEM" mode="master" range="0xFFFFFFFF" dataWidth="32" portType="addressable" base="0x0"/>
+      <port name="S_AXI_CONTROL" mode="slave" range="0x1000" dataWidth="32" portType="addressable" base="0x0"/>
+    </ports>
+    <args>
+      <arg name="src_data" addressQualifier="1" id="0" port="M_AXI_GMEM" size="0x8" offset="0x10" hostOffset="0x0" hostSize="0x8" type="uchar*"/>
+      <arg name="dst_data" addressQualifier="1" id="1" port="M_AXI_GMEM" size="0x8" offset="0x1C" hostOffset="0x0" hostSize="0x8" type="float*"/>
+      <arg name="w01" addressQualifier="1" id="2" port="M_AXI_GMEM" size="0x8" offset="0x28" hostOffset="0x0" hostSize="0x8" type="float*"/>
+      <arg name="b1" addressQualifier="1" id="3" port="M_AXI_GMEM" size="0x8" offset="0x34" hostOffset="0x0" hostSize="0x8" type="float*"/>
+      <arg name="w12" addressQualifier="1" id="4" port="M_AXI_GMEM" size="0x8" offset="0x40" hostOffset="0x0" hostSize="0x8" type="float*"/>
+      <arg name="b2" addressQualifier="1" id="5" port="M_AXI_GMEM" size="0x8" offset="0x4C" hostOffset="0x0" hostSize="0x8" type="float*"/>
+      <arg name="w23" addressQualifier="1" id="6" port="M_AXI_GMEM" size="0x8" offset="0x58" hostOffset="0x0" hostSize="0x8" type="float*"/>
+      <arg name="b3" addressQualifier="1" id="7" port="M_AXI_GMEM" size="0x8" offset="0x64" hostOffset="0x0" hostSize="0x8" type="float*"/>
+    </args>
+    <compileWorkGroupSize x="1" y="1" z="1"/>
+    <maxWorkGroupSize x="0" y="0" z="0"/>
+  </kernel>
+</root>

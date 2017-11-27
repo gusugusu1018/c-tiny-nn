@@ -1,0 +1,52 @@
+<profile>
+
+<section name = "Vivado HLS Report for 'forward_kernel'" level="0">
+<item name = "Date">Mon Nov 27 20:25:34 2017
+</item>
+<item name = "Version">2017.2 (Build 1909853 on Wed Aug 23 11:51:38 MDT 2017)</item>
+<item name = "Project">forward_kernel</item>
+<item name = "Solution">solution_OCL_REGION_0</item>
+<item name = "Product family">kintexu</item>
+<item name = "Target device">xcku115-flvb2104-2-e</item>
+</section>
+
+<section name = "Performance Estimates" level="0">
+<item name = "Timing (ns)">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="4">Clock, Target, Estimated, Uncertainty</keys>
+<column name="ap_clk">3.33, 3.10, 0.90</column>
+</table>
+</item>
+</section>
+</item>
+<item name = "Latency (clock cycles)">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="6">, min, max, min, max, Type</keys>
+<column name="">20620964, 20620964, 20620965, 20620965, none</column>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="0">
+<keys size="7">Instance, Module, min, max, min, max, Type</keys>
+</table>
+</item>
+<item name = "Loop"><table name="" hasTotal="0">
+<keys size="8">Loop Name, min, max, Latency, achieved, target, Count, Pipelined</keys>
+<column name="- LOOP_H1">8973312, 8973312, 8763, -, -, 1024, no</column>
+<column name=" + LOOP_H1.1">8610, 8610, 226, 43, 1, 196, yes</column>
+<column name="- LOOP_H2_L">11534496, 11534496, 172, 11, 1, 1048576, yes</column>
+<column name="- LOOP_H3_L">112798, 112798, 170, 11, 1, 10240, yes</column>
+<column name="- LOOP_SERCH_MAX">32, 32, 6, 3, 1, 10, yes</column>
+<column name="- LOOP_EXP">143, 143, 45, 11, 1, 10, yes</column>
+<column name="- LOOP_SOFTMAX">41, 41, 33, 1, 1, 10, yes</column>
+</table>
+</item>
+</section>
+</item>
+</section>
+</item>
+</section>
+</profile>

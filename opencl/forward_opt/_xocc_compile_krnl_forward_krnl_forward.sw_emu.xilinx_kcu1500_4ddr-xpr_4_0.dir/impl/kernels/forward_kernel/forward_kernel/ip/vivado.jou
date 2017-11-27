@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2017.2_sdx (64-bit)
+# SW Build 1972098 on Wed Aug 23 11:34:38 MDT 2017
+# IP Build 1971916 on Wed Aug 23 13:11:02 MDT 2017
+# Start of session at: Mon Nov 27 20:25:44 2017
+# Process ID: 11985
+# Current directory: /home/h-ninomiya/SDAccel_Examples/vision/forward_aligned/_xocc_compile_krnl_forward_krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0.dir/impl/kernels/forward_kernel/forward_kernel/solution_OCL_REGION_0/impl/ip
+# Command line: vivado -notrace -mode batch -source run_ippack.tcl
+# Log file: /home/h-ninomiya/SDAccel_Examples/vision/forward_aligned/_xocc_compile_krnl_forward_krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0.dir/impl/kernels/forward_kernel/forward_kernel/solution_OCL_REGION_0/impl/ip/vivado.log
+# Journal file: /home/h-ninomiya/SDAccel_Examples/vision/forward_aligned/_xocc_compile_krnl_forward_krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0.dir/impl/kernels/forward_kernel/forward_kernel/solution_OCL_REGION_0/impl/ip/vivado.jou
+#-----------------------------------------------------------
+source run_ippack.tcl -notrace

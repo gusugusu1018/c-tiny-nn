@@ -1,0 +1,37 @@
+
+
+****** Vivado v2017.2_sdx (64-bit)
+  **** SW Build 1972098 on Wed Aug 23 11:34:38 MDT 2017
+  **** IP Build 1971916 on Wed Aug 23 13:11:02 MDT 2017
+    ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+INFO: [Common 17-1460] Use of init.tcl in /home/opt/Xilinx/SDx/2017.2/Vivado/scripts/init.tcl is deprecated. Please use Vivado_init.tcl 
+Sourcing tcl script '/home/opt/Xilinx/SDx/2017.2/Vivado/scripts/init.tcl'
+16 Beta devices matching pattern found, 0 enabled.
+Loaded SDSoC Platform Tcl Library
+source run_ippack.tcl -notrace
+create_project: Time (s): cpu = 00:00:00.12 ; elapsed = 00:00:06 . Memory (MB): peak = 1244.062 ; gain = 0.000 ; free physical = 2925 ; free virtual = 20096
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/opt/Xilinx/SDx/2017.2/Vivado/data/ip'.
+WARNING: [IP_Flow 19-4832] The IP name 'forward_kernel_ap_faddfsub_9_full_dsp_32' you have specified is long. The Windows operating system has path length limitations. It is recommended you use shorter names to reduce the likelihood of issues.
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'forward_kernel_ap_faddfsub_9_full_dsp_32'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'forward_kernel_ap_faddfsub_9_full_dsp_32'...
+WARNING: [IP_Flow 19-4832] The IP name 'forward_kernel_ap_fmul_5_max_dsp_32' you have specified is long. The Windows operating system has path length limitations. It is recommended you use shorter names to reduce the likelihood of issues.
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'forward_kernel_ap_fmul_5_max_dsp_32'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'forward_kernel_ap_fmul_5_max_dsp_32'...
+WARNING: [IP_Flow 19-4832] The IP name 'forward_kernel_ap_fdiv_28_no_dsp_32' you have specified is long. The Windows operating system has path length limitations. It is recommended you use shorter names to reduce the likelihood of issues.
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'forward_kernel_ap_fdiv_28_no_dsp_32'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'forward_kernel_ap_fdiv_28_no_dsp_32'...
+WARNING: [IP_Flow 19-4832] The IP name 'forward_kernel_ap_sitofp_6_no_dsp_32' you have specified is long. The Windows operating system has path length limitations. It is recommended you use shorter names to reduce the likelihood of issues.
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'forward_kernel_ap_sitofp_6_no_dsp_32'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'forward_kernel_ap_sitofp_6_no_dsp_32'...
+WARNING: [IP_Flow 19-4832] The IP name 'forward_kernel_ap_fcmp_1_no_dsp_32' you have specified is long. The Windows operating system has path length limitations. It is recommended you use shorter names to reduce the likelihood of issues.
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'forward_kernel_ap_fcmp_1_no_dsp_32'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'forward_kernel_ap_fcmp_1_no_dsp_32'...
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/opt/Xilinx/SDx/2017.2/Vivado/data/ip'.
+WARNING: [Vivado 12-4404] The CPU emulation flow is not supported when using a packaged XO file with XOCC.
+Add Instance exp_generic_float_s grp_exp_generic_float_s_fu_662 662
+INFO: [Common 17-206] Exiting Vivado at Mon Nov 27 20:26:07 2017...
