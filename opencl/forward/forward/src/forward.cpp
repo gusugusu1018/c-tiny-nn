@@ -156,7 +156,7 @@ void forward_cpu(const unsigned char* src_data,
 		for (int i=0;i<N_INPUT;i++) {
 			// sum w*data
 			//z1[j]+=w01[i][j]*data[i];
-			z1[j]+=w01[j*N_H1+j]*data[i];
+			z1[j]+=w01[i*N_H1+j]*data[i];
 		}
 		// sum bias
 		z1[j]+=b1[j];
