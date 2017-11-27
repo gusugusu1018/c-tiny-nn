@@ -6,27 +6,27 @@ include $(COMMON_REPO)/libs/xcl2/xcl2.mk
 include $(COMMON_REPO)/libs/opencl/opencl.mk
 
 # Affine Host Application
-forward_h2_SRCS=./src/forward_h2.cpp $(xcl2_SRCS)
-forward_h2_HDRS=./src/network.h $(xcl2_HDRS)
-forward_h2_CXXFLAGS=-I./src/ $(xcl2_CXXFLAGS) $(opencl_CXXFLAGS) 
-forward_h2_LDFLAGS=$(opencl_LDFLAGS) -Wall -std=c++0x -lrt 
+forward_SRCS=./src/forward.cpp $(xcl2_SRCS)
+forward_HDRS=./src/network.h $(xcl2_HDRS)
+forward_CXXFLAGS=-I./src/ $(xcl2_CXXFLAGS) $(opencl_CXXFLAGS) 
+forward_LDFLAGS=$(opencl_LDFLAGS) -Wall -std=c++0x -lrt 
 
-EXES=forward_h2
+EXES=forward
 
 # Affine Kernel
-krnl_forward_h2_SRCS=./src/krnl_forward_h2.cl
-krnl_forward_h2_CLFLAGS=--kernel forward_h2_kernel -I./src/
+krnl_forward_SRCS=./src/krnl_forward.cl
+krnl_forward_CLFLAGS=--kernel forward_kernel -I./src/
 
-XOS=krnl_forward_h2
+XOS=krnl_forward
 
 # Affine xclbin
-krnl_forward_h2_XOS=krnl_forward_h2
-krnl_forward_h2_NDEVICES=xilinx:adm-pcie-ku3:2ddr-xpr xilinx:xil-accel-rd-vu9p:4ddr-xpr xilinx:adm-pcie-7v3:1ddr
-XCLBINS=krnl_forward_h2
+krnl_forward_XOS=krnl_forward
+krnl_forward_NDEVICES=xilinx:adm-pcie-ku3:2ddr-xpr xilinx:xil-accel-rd-vu9p:4ddr-xpr xilinx:adm-pcie-7v3:1ddr
+XCLBINS=krnl_forward
 
 # check
-check_EXE=forward_h2
-check_XCLBINS=krnl_forward_h2
+check_EXE=forward
+check_XCLBINS=krnl_forward
 check_NDEVICES=xilinx:adm-pcie-ku3:2ddr-xpr xilinx:xil-accel-rd-vu9p:4ddr-xpr xilinx:adm-pcie-7v3:1ddr
 check_ARGS=./data/CT-MONO2-16-brain.raw
 
