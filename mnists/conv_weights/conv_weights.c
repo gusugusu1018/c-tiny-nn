@@ -29,15 +29,15 @@ int main(){
 	get_weights(load_file,w01,b1,w12,b2,w23,b3);
 	for (int i=0;i<N_INPUT;i++) {
 		for (int j=0;j<N_H1;j++)
-			new_w01[i*N_INPUT+j] = w01[i][j];
+			new_w01[i*N_H1+j] = w01[i][j];
 	}
 	for (int i=0;i<N_H1;i++) {
 		for (int j=0;j<N_H2;j++)
-			new_w12[i*N_INPUT+j] = w12[i][j];
+			new_w12[i*N_H2+j] = w12[i][j];
 	}
 	for (int i=0;i<N_H2;i++) {
 		for (int j=0;j<N_OUTPUT;j++)
-			new_w23[i*N_INPUT+j] = w23[i][j];
+			new_w23[i*N_OUTPUT+j] = w23[i][j];
 	}
 	new_write_weights(save_file,new_w01,b1,new_w12,b2,new_w23,b3);
 
