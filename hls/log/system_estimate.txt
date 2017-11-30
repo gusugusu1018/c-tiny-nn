@@ -1,0 +1,98 @@
+HLS
+
+-------------------------------------------------------------------------------
+Design Name:             krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0
+Target Device:           xilinx:kcu1500:4ddr-xpr:4.0
+Target Clock:            300MHz
+Total number of kernels: 1
+-------------------------------------------------------------------------------
+Kernel Summary
+Kernel Name     Type  Target              OpenCL Library                                   Compute Units
+--------------  ----  ------------------  -----------------------------------------------  -------------
+forward_kernel  c     fpga0:OCL_REGION_0  krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0  1
+-------------------------------------------------------------------------------
+OpenCL Binary:     krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0
+Kernels mapped to: clc_region
+Timing Information (MHz)
+Compute Unit      Kernel Name     Module Name     Target Frequency  Estimated Frequency
+----------------  --------------  --------------  ----------------  -------------------
+forward_kernel_1  forward_kernel  forward_kernel  300.300293        322.580658
+20171130
+最適化なし
+````
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_kernel  20479187        20479186   20479186  20479186
+
+Area Information
+Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
+----------------  --------------  --------------  -----  -----  ---  ----
+forward_kernel_1  forward_kernel  forward_kernel  13743  14890  31   24
+-------------------------------------------------------------------------------
+````
+2203
+出力層を10UNROLL
+````
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_kernel  20478402        20478401   20478401  20478401
+
+Area Information
+Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
+----------------  --------------  --------------  -----  -----  ---  ----
+forward_kernel_1  forward_kernel  forward_kernel  14860  15567  31   20
+-------------------------------------------------------------------------------
+````
+2211
+足し算ループを展開して直にかいた。
+sum=a3[0]+a3[1]+...+a3[9];
+```
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_kernel  20478388        20478387   20478387  20478387
+
+Area Information
+Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
+----------------  --------------  --------------  -----  -----  ---  ----
+forward_kernel_1  forward_kernel  forward_kernel  34564  29707  71   20
+-------------------------------------------------------------------------------
+```
+2215
+コンパイラ任せにした。
+```
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_kernel  20478399        20478398   20478398  20478398
+
+Area Information
+Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
+----------------  --------------  --------------  -----  -----  ---  ----
+forward_kernel_1  forward_kernel  forward_kernel  31783  25977  47   20
+-------------------------------------------------------------------------------
+```
+直書きのほうがいいとわかった
+2222
+正規化を独立ループにし784並列にした
+```
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_kernel  20479151        20479150   20479150  20479150
+
+Area Information
+Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
+----------------  --------------  --------------  -----  -----  ---  ----
+forward_kernel_1  forward_kernel  forward_kernel  33703  33344  63   22
+-------------------------------------------------------------------------------
+```
+早くなると思いきや、遅くなったため、
+正規化をH1のパーセプトロン計算に含めることにした。
+
+H1層計算を1024UNROLL
+
+
+
