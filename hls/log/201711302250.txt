@@ -1,0 +1,39 @@
+===============================================================================
+Version:    xocc v2017.2_sdx (64-bit)
+Build:      SW Build 1972098 on Wed Aug 23 11:34:38 MDT 2017
+Copyright:  Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+Created:    Thu Nov 30 22:49:10 2017
+===============================================================================
+
+-------------------------------------------------------------------------------
+Design Name:             krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0
+Target Device:           xilinx:kcu1500:4ddr-xpr:4.0
+Target Clock:            300MHz
+Total number of kernels: 1
+-------------------------------------------------------------------------------
+
+Kernel Summary
+Kernel Name     Type  Target              OpenCL Library                                   Compute Units
+--------------  ----  ------------------  -----------------------------------------------  -------------
+forward_kernel  c     fpga0:OCL_REGION_0  krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0  1
+
+
+-------------------------------------------------------------------------------
+OpenCL Binary:     krnl_forward.sw_emu.xilinx_kcu1500_4ddr-xpr_4_0
+Kernels mapped to: clc_region
+
+Timing Information (MHz)
+Compute Unit      Kernel Name     Module Name     Target Frequency  Estimated Frequency
+----------------  --------------  --------------  ----------------  -------------------
+forward_kernel_1  forward_kernel  forward_kernel  300.300293        302.114807
+
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_kernel  20554575        20554574   20554574  20554574
+
+Area Information
+Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
+----------------  --------------  --------------  -----  -----  ---  ----
+forward_kernel_1  forward_kernel  forward_kernel  33556  29470  71   20
+-------------------------------------------------------------------------------

@@ -31,7 +31,7 @@ Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
 forward_kernel_1  forward_kernel  forward_kernel  13743  14890  31   24
 -------------------------------------------------------------------------------
 ````
-2203
+201711302203
 出力層を10UNROLL
 ````
 Latency Information (clock cycles)
@@ -45,7 +45,7 @@ Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
 forward_kernel_1  forward_kernel  forward_kernel  14860  15567  31   20
 -------------------------------------------------------------------------------
 ````
-2211
+201711302211
 足し算ループを展開して直にかいた。
 sum=a3[0]+a3[1]+...+a3[9];
 ```
@@ -60,7 +60,7 @@ Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
 forward_kernel_1  forward_kernel  forward_kernel  34564  29707  71   20
 -------------------------------------------------------------------------------
 ```
-2215
+201711302215
 コンパイラ任せにした。
 ```
 Latency Information (clock cycles)
@@ -75,7 +75,7 @@ forward_kernel_1  forward_kernel  forward_kernel  31783  25977  47   20
 -------------------------------------------------------------------------------
 ```
 直書きのほうがいいとわかった
-2222
+201711302222
 正規化を独立ループにし784並列にした
 ```
 Latency Information (clock cycles)
@@ -92,7 +92,53 @@ forward_kernel_1  forward_kernel  forward_kernel  33703  33344  63   22
 早くなると思いきや、遅くなったため、
 正規化をH1のパーセプトロン計算に含めることにした。
 
-H1層計算を1024UNROLL
+201711302250
+H1層計算を2UNROLL
+```
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_kernel  20554575        20554574   20554574  20554574
 
+Area Information
+Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
+----------------  --------------  --------------  -----  -----  ---  ----
+forward_kernel_1  forward_kernel  forward_kernel  33556  29470  71   20
+-------------------------------------------------------------------------------
+```
+何故かおそくなった。
+コンパイルも遅い。
 
+201712011300
+パイプライン化した。
+```
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_kernel  20541550        20541549   20541549  20541549
 
+Area Information
+Compute Unit      Kernel Name     Module Name     FF      LUT     DSP  BRAM
+----------------  --------------  --------------  ------  ------  ---  ----
+forward_kernel_1  forward_kernel  forward_kernel  505168  401310  59   20
+-------------------------------------------------------------------------------
+```
+何故かおそくなった。
+
+201712011410
+forwardを関数化した。
+```
+Latency Information (clock cycles)
+Compute Unit      Kernel Name     Module Name     Start Interval  Best Case  Avg Case  Worst Case
+----------------  --------------  --------------  --------------  ---------  --------  ----------
+forward_kernel_1  forward_kernel  forward_fpga    20478386        20478386   20478386  20478386
+forward_kernel_1  forward_kernel  forward_kernel  20478388        20478387   20478387  20478387
+
+Area Information
+Compute Unit      Kernel Name     Module Name     FF     LUT    DSP  BRAM
+----------------  --------------  --------------  -----  -----  ---  ----
+forward_kernel_1  forward_kernel  forward_fpga    29436  23999  71   4
+forward_kernel_1  forward_kernel  forward_kernel  34630  29871  71   20
+-------------------------------------------------------------------------------
+```
+latencyは変わらなかった。
