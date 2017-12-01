@@ -1,5 +1,6 @@
 #include "network.h"
-#include "math.h"
+#include "hls_math.h"
+//#include "math.h"
 float relu(float a) {
 	return a > 0.0f ? a:0.0f;
 }
@@ -104,7 +105,8 @@ void forward_kernel(const unsigned char* src_data,
 	LOOP_SOFTMAX_1:for (int i=0; i<N_OUTPUT; i++) if(max < z3[i]) max = z3[i];
 	LOOP_SOFTMAX_2:for (int i=0; i<N_OUTPUT; i++) {
 #pragma HLS unroll factor 10
-		a3[i] = exp(z3[i] - max);
+		a3[i] = hls::exp(z3[i] - max);
+		//a3[i] = exp(z3[i] - max);
 		//sum += a3[i];
 	}
 	sum = a3[0]+a3[1]+a3[2]+a3[3]+a3[4]+a3[5]+a3[6]+a3[7]+a3[8]+a3[9];
